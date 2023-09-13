@@ -1,1 +1,7 @@
 build
+demo/.vs/
+demo/EmoToTextWindow/x64
+demo/EmoDatabaseService/bin
+demo/EmoDatabaseService/obj
+demo/EmoDatabaseService/emo.db
+demo/x64
