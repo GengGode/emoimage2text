@@ -77,6 +77,39 @@ namespace EmoDatabaseService.Controllers
             return new JsonResult(new { status = "ok", emoImages = emoImages });
         }
 
+        [HttpPost("find_paths")]
+        public IActionResult FindPaths(string[] texts)
+        {
+            string[] strings = Array.Empty<string>();
+            for (int i = 0; i < texts.Length; i++)
+            {
+                var text = texts[i];
+                string[] text_strings = text.Split(' ');
+                strings = strings.Concat(text_strings).ToArray();
+            }
+            var contains_func = new Func<EmoImage, bool>(emoImage =>
+            {
+                for (int i = 0; i < strings.Length; i++)
+                {
+                    var str = strings[i];
+                    if (emoImage.EmoText.Contains(str))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            });
+
+            var emoImages = _context.EmoImages.Where(contains_func).ToList();
+            var paths = emoImages.Select(emoImage => emoImage.ImagePath).ToList();
+            if(paths.Count == 0)
+            {
+                return NotFound();
+            }
+            // \n split
+            return Ok(string.Join("\n", paths));
+        }
+
         // download emo_image
         [HttpGet("download/{ID}")]
         public IActionResult Download(Guid id)
