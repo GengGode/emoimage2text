@@ -32,8 +32,19 @@ namespace EmoDatabaseService.Controllers
         [HttpPost]
         public JsonResult Post(EmoImage emoImage)
         {
-            emoImage.ID = Guid.NewGuid();
-            _context.EmoImages.Add(emoImage);
+            // 查找相同路径是否存在
+            var emoImage_old = _context.EmoImages.Where(emoImage => emoImage.ImagePath == emoImage.ImagePath).FirstOrDefault();
+            // 存在就替换
+            if ( emoImage_old != null)
+            {
+                emoImage.ID = emoImage_old.ID;
+                _context.EmoImages.Update(emoImage);
+            }
+            else
+            {
+                emoImage.ID = Guid.NewGuid();
+                _context.EmoImages.Add(emoImage);
+            }
             _context.SaveChanges();
             return new JsonResult(new { status = "ok", emoImage = emoImage });
         }
@@ -65,5 +76,24 @@ namespace EmoDatabaseService.Controllers
             var emoImages = _context.EmoImages.Where(contains_func).ToList();
             return new JsonResult(new { status = "ok", emoImages = emoImages });
         }
+
+        // download emo_image
+        [HttpGet("download/{ID}")]
+        public IActionResult Download(Guid id)
+        {
+            var emoImage = _context.EmoImages.Find(id);
+            if (emoImage == null)
+            {
+                return NotFound();
+            }
+            var path = emoImage.ImagePath;
+            var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            return File(fileStream, "application/octet-stream", Path.GetFileName(path));
+        }
+
+
+
+
+
     }
 }
