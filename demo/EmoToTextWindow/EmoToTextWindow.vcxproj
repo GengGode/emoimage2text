@@ -90,10 +90,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtRcc Include="EmoToText.qrc" />
+    <QtUic Include="EmoRetrievalWindow.ui" />
     <QtUic Include="EmoToText.ui" />
     <QtMoc Include="EmoToText.h" />
+    <ClCompile Include="EmoRetrievalWindow.cpp" />
     <ClCompile Include="EmoToText.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="EmoRetrievalWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

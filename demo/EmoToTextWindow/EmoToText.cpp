@@ -156,7 +156,7 @@ void to_server(Results results)
     curl = curl_format(curl);
     std::string curl_str = curl.toStdString();
     curl_str = utf8_to_gbk(curl_str);
-    std::cout << curl_str << std::endl;
+    // std::cout << curl_str << std::endl;
 
     int res = system(curl_str.c_str());
     std::cout << res << std::endl;
@@ -169,7 +169,7 @@ void to_server(Results results)
 }
 
 EmoToText::EmoToText(QWidget* parent)
-    : QWidget(parent)
+    : QWidget(parent), retrieval_window(new EmoRetrievalWindow(nullptr))
 {
     ui.setupUi(this);
     ui.graphicsView->setScene(new QGraphicsScene(this));
@@ -265,7 +265,7 @@ EmoToText::EmoToText(QWidget* parent)
 
         });
 
-
+    retrieval_window->show();
 }
 
 EmoToText::~EmoToText()

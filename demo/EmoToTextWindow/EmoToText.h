@@ -2,6 +2,8 @@
 
 #include <QtWidgets/QWidget>
 #include "ui_EmoToText.h"
+#include "EmoRetrievalWindow.h"
+#include "QSharedPointer"
 
 class EmoToText : public QWidget
 {
@@ -10,6 +12,8 @@ class EmoToText : public QWidget
 public:
     EmoToText(QWidget *parent = nullptr);
     ~EmoToText();
+
+    QSharedPointer<EmoRetrievalWindow> retrieval_window;
 
 private:
     Ui::EmoToTextClass ui;
