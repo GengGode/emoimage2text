@@ -37,8 +37,9 @@ namespace EmoDatabaseService.Controllers
             // ´æÔÚ¾ÍÌæ»»
             if ( emoImage_old != null)
             {
-                emoImage.ID = emoImage_old.ID;
-                _context.EmoImages.Update(emoImage);
+                emoImage_old.EmoText = emoImage.EmoText;
+                emoImage_old.EmoTextRaw = emoImage.EmoTextRaw;
+                _context.EmoImages.Update(emoImage_old);
             }
             else
             {
@@ -50,7 +51,7 @@ namespace EmoDatabaseService.Controllers
         }
 
         // find emo_image from emo_image.emoTextRaw by texts
-        [HttpPost("find")]
+        [HttpGet("find")]
         public JsonResult Finds(string[] texts)
         {
             string[] strings = Array.Empty<string>();
@@ -77,16 +78,12 @@ namespace EmoDatabaseService.Controllers
             return new JsonResult(new { status = "ok", emoImages = emoImages });
         }
 
-        [HttpPost("find_paths")]
-        public IActionResult FindPaths(string[] texts)
+        [HttpGet("find_paths")]
+        public IActionResult FindPaths(string text)
         {
             string[] strings = Array.Empty<string>();
-            for (int i = 0; i < texts.Length; i++)
-            {
-                var text = texts[i];
                 string[] text_strings = text.Split(' ');
                 strings = strings.Concat(text_strings).ToArray();
-            }
             var contains_func = new Func<EmoImage, bool>(emoImage =>
             {
                 for (int i = 0; i < strings.Length; i++)
