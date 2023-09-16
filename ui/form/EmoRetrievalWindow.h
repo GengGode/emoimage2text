@@ -10,6 +10,8 @@ class EmoRetrievalWindow : public QWidget
 public:
     EmoRetrievalWindow(QWidget *parent = nullptr);
     ~EmoRetrievalWindow();
+private slots:
+    void update_emo_list(QStringList emos);
 
 private:
     Ui::EmoRetrievalWindowClass ui;
