@@ -108,7 +108,7 @@ namespace EmoDatabaseService.Controllers
         }
 
         // download emo_image
-        [HttpGet("download/{ID}")]
+        [HttpGet("download/{id}")]
         public IActionResult Download(Guid id)
         {
             var emoImage = _context.EmoImages.Find(id);
