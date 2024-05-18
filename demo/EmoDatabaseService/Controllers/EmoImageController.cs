@@ -32,9 +32,9 @@ namespace EmoDatabaseService.Controllers
         [HttpPost]
         public JsonResult Post(EmoImage emoImage)
         {
-            // ²éÕÒÏàÍ¬Â·¾¶ÊÇ·ñ´æÔÚ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬Â·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
             var emoImage_old = _context.EmoImages.Where(emoImage => emoImage.ImagePath == emoImage.ImagePath).FirstOrDefault();
-            // ´æÔÚ¾ÍÌæ»»
+            // ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½æ»»
             if ( emoImage_old != null)
             {
                 emoImage_old.EmoText = emoImage.EmoText;
@@ -121,9 +121,19 @@ namespace EmoDatabaseService.Controllers
             return File(fileStream, "application/octet-stream", Path.GetFileName(path));
         }
 
-
-
-
+        // ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾Í¼Æ¬
+        [HttpGet("image/{id}")]
+        public IActionResult Image(Guid id)
+        {
+            var emoImage = _context.EmoImages.Find(id);
+            if (emoImage == null)
+            {
+                return NotFound();
+            }
+            var path = emoImage.ImagePath;
+            var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            return File(fileStream, "image/jpeg");
+        }
 
     }
 }
